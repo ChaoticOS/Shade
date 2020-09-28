@@ -22,12 +22,53 @@ function showlogo {
       _____ _               _
      / ____| |             | |
     | (___ | |__   __ _  __| | ___
-     \___ \| '_ \ / _\` |/ _\` |/ _ \\ $endc$enda         Shade : A Operating System Customisation Project$c$b
-     ____) | | | | (_| | (_| |  __/    $endc$enda                Licensed under$r$b chaOS © 2020$enda$c$b
-    |_____/|_| |_|\__,_|\__,_|\___     $endc$enda        Github : https://github.com/ChaoticOS/Shade$c$b
-                              Aqua
+     \___ \| '_ \ / _\` |/ _\` |/ _ \\ $endc$enda         Shade : An Operating System Customisation Project$c$b
+     ____) | | | | (_| | (_| |  __/    $endc$enda                 Licensed under$r$b chaOS © 2020$enda$c$b
+    |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
+                        Aqua Canary
 
+   $r Warning: This is Incomplete Build 
     $endc$enda\n""";
 }
 
-showlogo
+function choose {
+  options=("$@")
+  unset choices
+  menu() {
+      showlogo
+      echo "Avaliable options:\n"
+      for i in ${!options[@]}; do
+          [[ "${choices[i]}" ]] &&
+          printf $g || printf $r
+          printf " %10d. %-25s [%s]\n" $((i+1)) "${options[i]}" "${choices[i]:- }"
+          printf $enda
+      done
+      if [[ "$msg" ]]; then echo "$msg"; fi
+  }
+
+  prompt="Check an option (again to uncheck, ENTER when done): "
+  while menu && read -rp "$prompt" num && [[ "$num" ]]; do
+      clear
+      [[ "$num" != *[![:digit:]]* ]] &&
+      (( num > 0 && num <= ${#options[@]} )) ||
+      { msg="Invalid option: $num"; continue; }
+      ((num--)); msg="${options[num]} was ${choices[num]:+un}checked"
+      [[ "${choices[num]}" ]] && choices[num]="" || choices[num]="X"
+  done
+}
+
+function initial {
+  showlogo
+
+  printf "\n\n$y$b    Loading Script...$endc$enda"
+  {
+    sudo apt-get update
+    sudo apt-get install tasksel lightdm -y
+  } &> /dev/null &&
+  { printf "\r$g$b    Script Loaded $endc$enda\n"; sleep 2 } ||
+  { printf "\r$r$b    Error Occured, Exiting... $endc$enda\n"; sleep 3; exit; }
+}
+
+function desktopenv {
+  tasksel
+}

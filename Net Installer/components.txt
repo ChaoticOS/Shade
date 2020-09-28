@@ -1,0 +1,6 @@
+desktop-environment
+browser
+terminal
+texteditor
+accessories
+devtools
