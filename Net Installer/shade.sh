@@ -69,6 +69,63 @@ function initial {
   { printf "\r$r$b    Error Occured, Exiting... $endc$enda\n"; sleep 3; exit; }
 }
 
+function browser {
+  # Installation of Browsers
+  echo "\n                    Browser Installer\n"
+  options=("Chrome" "Firefox")
+  choose "${options[@]}"
+
+  for i in ${!options[@]}; do
+    [[ "${choices[i]}" ]] &&
+      case ${options[i]} in
+        "Chrome")
+          printf "\n$y$b    Installing Google Chrome $endc$enda"
+          {
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg --install google-chrome-stable_current_amd64.deb
+            sudo apt install --assume-yes --fix-broken
+          } &> /dev/null &&
+          { printf "\r$g$b    Google Chrome Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+  
+        "Firefox")
+          printf "\n\n$y$b    Installing Firefox...$endc$enda"
+          sudo apt install firefox -y &> /dev/null &&
+          { printf "\r$g$b    Firefox Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        *)
+          echo "Unknown"
+          ;;
+      esac
+  done
+}
+
+
+
 function desktopenv {
   tasksel
 }
+
+
+function main {
+  initial
+  browser
+  desktopenv
+  clear
+  showlogo
+  printf "\n\n$y$b    Your Computer is now Configured$endc$enda"
+  printf "\n\n$y$b    Reboot is Required, Press Y/n to continue : $endc$enda"
+  while true; do
+    read -r -n 1 -s yn
+    case $yn in
+        [Yy]* ) Rebooting; sleep 2; reboot;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+}
+
+main
