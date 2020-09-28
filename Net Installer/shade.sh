@@ -14,6 +14,7 @@ c='\E[36m'
 w='\E[37m'
 endc='\E[0m'
 enda='\033[0m'
+cl='\e[K'
 
 function showlogo {
     clear
@@ -59,14 +60,10 @@ function choose {
 
 function initial {
   showlogo
-
-  printf "\n\n$y$b    Loading Script...$endc$enda"
-  {
-    sudo apt-get update
-    sudo apt-get install tasksel lightdm -y
-  } &> /dev/null &&
-  { printf "\r$g$b    Script Loaded $endc$enda\n"; sleep 2 } ||
-  { printf "\r$r$b    Error Occured, Exiting... $endc$enda\n"; sleep 3; exit; }
+  printf "\n\n$y$b    Loading Script... $endc$enda"
+  sudo apt-get update &> /dev/null &&
+  { printf "\r$cl$g$b    Script Loaded $endc$enda\n"; sleep 2 ;} ||
+  { printf "\r$cl$r$b    Error Occured, Exiting... $endc$enda\n"; sleep 3; exit; }
 }
 
 function browser {
@@ -79,21 +76,21 @@ function browser {
     [[ "${choices[i]}" ]] &&
       case ${options[i]} in
         "Chrome")
-          printf "\n$y$b    Installing Google Chrome $endc$enda"
+          printf "\n$y$b    Installing Google Chrome... $endc$enda"
           {
             wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
             sudo dpkg --install google-chrome-stable_current_amd64.deb
             sudo apt install --assume-yes --fix-broken
           } &> /dev/null &&
-          { printf "\r$g$b    Google Chrome Installed $endc$enda\n"; sleep 2;} ||
-          { printf "\r$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          { printf "\r$cl$g$b    Google Chrome Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
   
         "Firefox")
-          printf "\n\n$y$b    Installing Firefox...$endc$enda"
+          printf "\n\n$y$b    Installing Firefox... $endc$enda"
           sudo apt install firefox -y &> /dev/null &&
-          { printf "\r$g$b    Firefox Installed $endc$enda\n"; sleep 2;} ||
-          { printf "\r$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          { printf "\r$cl$g$b    Firefox Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
         *)
@@ -106,7 +103,22 @@ function browser {
 
 
 function desktopenv {
-  tasksel
+  clear
+  showlogo
+  printf "                    Desktop Environment Installer\n"
+  printf "\n\n$y$b    Installing Gnome Display Manager... $endc$enda"
+  sudo apt install gdm3 -y &> /dev/null &&
+  { printf "\r$cl$g$b    Gnome Display Manager Installed $endc$enda\n"; sleep 2;} ||
+  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+  printf "\n\n$y$b    Initializing Tasksel $endc$enda"
+  {
+    sudo apt purge ubuntu-server cloud-init -y
+    sudo apt autoremove -y
+    sudo apt install tasksel -y
+  } &> /dev/null &&
+  { printf "\r$cl$g$b    Tasksel Initializedd $endc$enda\n"; sleep 2;} ||
+  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+  sudo tasksel
 }
 
 
@@ -116,16 +128,10 @@ function main {
   desktopenv
   clear
   showlogo
-  printf "\n\n$y$b    Your Computer is now Configured$endc$enda"
-  printf "\n\n$y$b    Reboot is Required, Press Y/n to continue : $endc$enda"
-  while true; do
-    read -r -n 1 -s yn
-    case $yn in
-        [Yy]* ) Rebooting; sleep 2; reboot;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+  printf "\n\n$g$b    Your Computer is now Configured$endc$enda"
+  printf "\n\n$c$b    Thanks for using Shade Aqua [Net Installer] from chaOS$endc$enda"
+  sleep 3
+  sudo service gdm3 start
 }
 
 main
