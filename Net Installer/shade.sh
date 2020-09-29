@@ -1,4 +1,5 @@
 #! /bin/bash
+# Shade Aqua v0.1.2 Build 13 Canary [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -26,9 +27,11 @@ function showlogo {
      \___ \| '_ \ / _\` |/ _\` |/ _ \\ $endc$enda         Shade : An Operating System Customisation Project$c$b
      ____) | | | | (_| | (_| |  __/    $endc$enda                 Licensed under$r$b chaOS © 2020$enda$c$b
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
-                        Aqua Canary
+                        Aqua Canary    $endc$enda
+                                 
+                            Aqua Version 0.1.2 Build 13
 
-   $r Warning: This is Incomplete Build 
+   $b$r Warning: This is Incomplete Build 
     $endc$enda\n""";
 }
 
@@ -109,28 +112,59 @@ function desktopenv {
   printf "\n\n$y$b    Installing Gnome Display Manager... $endc$enda"
   sudo apt install gdm3 -y &> /dev/null &&
   { printf "\r$cl$g$b    Gnome Display Manager Installed $endc$enda\n"; sleep 2;} ||
-  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
-  printf "\n\n$y$b    Initializing Tasksel $endc$enda"
+  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2; exit;}
+  printf "\n\n$y$b    Removing Extra Packages... $endc$enda"
   {
-    sudo apt purge ubuntu-server cloud-init -y
-    sudo apt autoremove -y
-    sudo apt install tasksel -y
+    sudo apt remove ubuntu-server cloud-init -y
   } &> /dev/null &&
-  { printf "\r$cl$g$b    Tasksel Initializedd $endc$enda\n"; sleep 2;} ||
+  { printf "\r$cl$g$b    Tasksel Packages Removed $endc$enda\n"; sleep 2;} ||
   { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
-  sudo tasksel
+  installenv
 }
 
+function installenv {
+  # Installation of Desktop Environment
+  printf "                    Desktop Environment Installer\n"
+  options=("Ubuntu Desktop" "Ubuntu Desktop Minimal")
+  choose "${options[@]}"
+
+  for i in ${!options[@]}; do
+    [[ "${choices[i]}" ]] &&
+      case ${options[i]} in
+        "Ubuntu Desktop")
+          printf "\n$y$b    Installing Ubuntu Desktop... $endc$enda"
+          {
+            sudo apt-get install ubuntu-desktop -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Ubuntu Desktop Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+  
+        "Ubuntu Desktop Minimal")
+          printf "\n\n$y$b    Installing Ubuntu Desktop Minimal... $endc$enda"
+          {
+            sudo apt install ubuntu-desktop-minimal -y 
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Ubuntu Desktop Minimal Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        *)
+          echo "Unknown"
+          ;;
+      esac
+  done
+}
 
 function main {
   initial
-  browser
   desktopenv
+  browser
   clear
   showlogo
   printf "\n\n$g$b    Your Computer is now Configured$endc$enda"
   printf "\n\n$c$b    Thanks for using Shade Aqua [Net Installer] from chaOS$endc$enda"
-  sleep 3
+  sleep 5
   sudo service gdm3 start
 }
 
