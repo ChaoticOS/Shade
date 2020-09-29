@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.1.2 Build 13 Canary [Net Installer]
+# Shade Aqua v0.1.2 Build 14 Canary [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -29,7 +29,7 @@ function showlogo {
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
                         Aqua Canary    $endc$enda
                                  
-                            Aqua Version 0.1.2 Build 13
+                            Aqua Version 0.1.2 Build 14
 
    $b$r Warning: This is Incomplete Build 
     $endc$enda\n""";
@@ -103,49 +103,30 @@ function browser {
   done
 }
 
-
-
-function desktopenv {
-  clear
-  showlogo
-  printf "                    Desktop Environment Installer\n"
-  printf "\n\n$y$b    Installing Gnome Display Manager... $endc$enda"
-  sudo apt install gdm3 -y &> /dev/null &&
-  { printf "\r$cl$g$b    Gnome Display Manager Installed $endc$enda\n"; sleep 2;} ||
-  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2; exit;}
-  printf "\n\n$y$b    Removing Extra Packages... $endc$enda"
-  {
-    sudo apt remove ubuntu-server cloud-init -y
-  } &> /dev/null &&
-  { printf "\r$cl$g$b    Tasksel Packages Removed $endc$enda\n"; sleep 2;} ||
-  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
-  installenv
-}
-
-function installenv {
-  # Installation of Desktop Environment
-  printf "                    Desktop Environment Installer\n"
-  options=("Ubuntu Desktop" "Ubuntu Desktop Minimal")
+function dmanager {
+  # Installation of Display Manager
+  echo "\n                    Display Manager Installer\n"
+  options=("gdm3" "lightdm")
   choose "${options[@]}"
 
   for i in ${!options[@]}; do
     [[ "${choices[i]}" ]] &&
       case ${options[i]} in
-        "Ubuntu Desktop")
-          printf "\n$y$b    Installing Ubuntu Desktop... $endc$enda"
+        "gdm3")
+          printf "\n$y$b    Installing Gnome Display Manager... $endc$enda"
           {
-            sudo apt-get install ubuntu-desktop -y
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install gdm3 -y
           } &> /dev/null &&
-          { printf "\r$cl$g$b    Ubuntu Desktop Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$g$b    Display Manager Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
   
-        "Ubuntu Desktop Minimal")
-          printf "\n\n$y$b    Installing Ubuntu Desktop Minimal... $endc$enda"
+        "lightdm")
+          printf "\n\n$y$b    Installing lightdm... $endc$enda"
           {
-            sudo apt install ubuntu-desktop-minimal -y 
+            sudo DEBIAN_FRONTEND=noninteractive apt install lightdm -y 
           } &> /dev/null &&
-          { printf "\r$cl$g$b    Ubuntu Desktop Minimal Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$g$b    lightdm Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
@@ -154,18 +135,35 @@ function installenv {
           ;;
       esac
   done
+  printf "\n$y$b    Please Configure Display Manager $endc$enda"
+  sleep 3
+  sudo dpkg-reconfigure gdm3
+
+}
+
+function desktopenv {
+  clear
+  showlogo
+  printf "\n\n$y$b    Initializing Tasksel... $endc$enda"
+  {
+    sudo apt-get install tasksel -y
+  } &> /dev/null &&
+  { printf "\r$cl$g$b    Tasksel Initialized $endc$enda\n"; sleep 2;} ||
+  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+  sudo tasksel
 }
 
 function main {
   initial
+  dmanager
   desktopenv
   browser
   clear
   showlogo
   printf "\n\n$g$b    Your Computer is now Configured$endc$enda"
   printf "\n\n$c$b    Thanks for using Shade Aqua [Net Installer] from chaOS$endc$enda"
+  printf "\n\n$y$b    Rebooting$endcenda"
   sleep 5
-  sudo service gdm3 start
 }
 
 main

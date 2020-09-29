@@ -4,3 +4,4 @@ terminal
 texteditor
 accessories
 devtools
+display manager
