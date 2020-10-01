@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.1.4 Build 17 Canary [Net Installer]
+# Shade Aqua v0.1.5 Build 18 Canary [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -29,7 +29,7 @@ function showlogo {
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
                         Aqua Canary    $endc$enda
                                  
-                            Aqua Version 0.1.4 Build 17
+                            Aqua Version 0.1.5 Build 18
 
    $b$r Warning: This is Incomplete Build 
     $endc$enda\n""";
@@ -206,7 +206,7 @@ function desktopenv {
   sudo tasksel
   printf "\n\n$y$b    Updating... $endc$enda"
   {
-    sudo apt-get install tasksel -y
+    sudo apt-get update
   } &> /dev/null &&
   { printf "\r$cl$g$b    Updated $endc$enda\n"; sleep 2;} ||
   { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2; exit; }
@@ -220,7 +220,13 @@ function main {
   terminal
   clear
   showlogo
-  printf "\n\n$g$b    Your Computer is now Configured$endc$enda"
+  printf "\n\n$y$b    Now Configuring your computer $endc$enda"
+  {
+    sudo apt-get install gnome-software -y
+    sudo apt-get install open-vm-tools -y
+  } &> /dev/null &&
+  { printf "\r$cl$g$b    Your Computer is now Configure $endc$enda\n"; sleep 2;} ||
+  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
   printf "\n\n$c$b    Thanks for using Shade Aqua [Net Installer] from chaOS$endc$enda"
   printf "\n\n$y$b    Rebooting$endcenda"
   sleep 5
