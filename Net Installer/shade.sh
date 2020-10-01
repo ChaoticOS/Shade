@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.1.5 Build 19 Canary [Net Installer]
+# Shade Aqua v0.2 Build 20 Beta [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -27,11 +27,11 @@ function showlogo {
      \___ \| '_ \ / _\` |/ _\` |/ _ \\ $endc$enda         Shade : An Operating System Customisation Project$c$b
      ____) | | | | (_| | (_| |  __/    $endc$enda                 Licensed under$r$b chaOS © 2020$enda$c$b
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
-                        Aqua Canary    $endc$enda
+                          Aqua Beta    $endc$enda
                                  
-                            Aqua Version 0.1.5 Build 19
+                            Aqua Version 0.2 Build 20
 
-   $b$r Warning: This is Incomplete Build 
+   $b$r Warning: Currently in Development 
     $endc$enda\n""";
 }
 
@@ -168,7 +168,7 @@ function texteditor {
         "Atom")
           printf "\n$y$b    Installing Atom... $endc$enda"
           {
-            # Installation Commands
+            sudo snap install atom --classic
           } &> /dev/null &&
           { printf "\r$cl$g$b    Atom Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -177,7 +177,7 @@ function texteditor {
         "Brackets")
           printf "\n\n$y$b    Installing Brackets... $endc$enda"
           {
-            # Installation Command
+            sudo snap install brackets
           } &> /dev/null &&
           { printf "\r$cl$g$b    Brackets Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -186,7 +186,7 @@ function texteditor {
         "Leafpad")
           printf "\n\n$y$b    Installing Leafpad... $endc$enda"
           {
-            # Installation Command
+             sudo apt-get install leafpad -y
           } &> /dev/null &&
           { printf "\r$cl$g$b    Leafpad Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -195,7 +195,7 @@ function texteditor {
         "Notepadqq")
           printf "\n\n$y$b    Installing Notepadqq... $endc$enda"
           {
-            # Installation Command
+            sudo apt-get install notepadqq
           } &> /dev/null &&
           { printf "\r$cl$g$b    Notepadqq Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -204,7 +204,7 @@ function texteditor {
         "Sublime Text")
           printf "\n\n$y$b    Installing Sublime Text... $endc$enda"
           {
-            # Installation Command
+            sudo snap install sublime-text --classic# Installation Command
           } &> /dev/null &&
           { printf "\r$cl$g$b    Sublime Text Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -268,6 +268,7 @@ function desktopenv {
   printf "\n\n$y$b    Updating... $endc$enda"
   {
     sudo apt-get update
+    sudo apt-get install snapd -y
   } &> /dev/null &&
   { printf "\r$cl$g$b    Updated $endc$enda\n"; sleep 2;} ||
   { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2; exit; }
