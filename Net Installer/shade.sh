@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.1.5 Build 18 Canary [Net Installer]
+# Shade Aqua v0.1.5 Build 19 Canary [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -29,7 +29,7 @@ function showlogo {
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
                         Aqua Canary    $endc$enda
                                  
-                            Aqua Version 0.1.5 Build 18
+                            Aqua Version 0.1.5 Build 19
 
    $b$r Warning: This is Incomplete Build 
     $endc$enda\n""";
@@ -105,7 +105,7 @@ function browser {
 }
 
 function terminal {
-  # Installation of Browsers
+  # Installation of Terminal
   echo "\n                    Terminal Installer\n"
   options=("Gnome Terminal" "Terminator" "Xfce Terminal" "xTerm")
   choose "${options[@]}"
@@ -156,6 +156,66 @@ function terminal {
   done
 }
 
+function texteditor {
+  # Installation of Text Editors
+  echo "\n                    Text Editor Installer\n"
+  options=("Atom" "Brackets" "Leafpad" "Notepadqq" "Sublime Text")
+  choose "${options[@]}"
+
+  for i in ${!options[@]}; do
+    [[ "${choices[i]}" ]] &&
+      case ${options[i]} in
+        "Atom")
+          printf "\n$y$b    Installing Atom... $endc$enda"
+          {
+            # Installation Commands
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Atom Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+  
+        "Brackets")
+          printf "\n\n$y$b    Installing Brackets... $endc$enda"
+          {
+            # Installation Command
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Brackets Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Leafpad")
+          printf "\n\n$y$b    Installing Leafpad... $endc$enda"
+          {
+            # Installation Command
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Leafpad Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Notepadqq")
+          printf "\n\n$y$b    Installing Notepadqq... $endc$enda"
+          {
+            # Installation Command
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Notepadqq Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Sublime Text")
+          printf "\n\n$y$b    Installing Sublime Text... $endc$enda"
+          {
+            # Installation Command
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Sublime Text Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+        *)
+          echo "Unknown Browser"
+          ;;
+      esac
+  done
+}
+
 function dmanager {
   # Installation of Display Manager
   echo "\n                    Display Manager Installer\n"
@@ -195,6 +255,7 @@ function dmanager {
 }
 
 function desktopenv {
+  # Installation of Desktop Environment
   clear
   showlogo
   printf "\n\n$y$b    Initializing Tasksel... $endc$enda"
@@ -218,6 +279,7 @@ function main {
   desktopenv
   browser
   terminal
+  texteditor
   clear
   showlogo
   printf "\n\n$y$b    Now Configuring your computer $endc$enda"
