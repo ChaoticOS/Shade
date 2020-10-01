@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.1.3 Build 15 Canary [Net Installer]
+# Shade Aqua v0.1.3 Build 16 Canary [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -117,7 +117,7 @@ function terminal {
         "Alacritty")
           printf "\n$y$b    Installing Alacritty... $endc$enda"
           {
-            sudo snap install alacritty --classic -y
+            sudo snap install alacritty --classic
           } &> /dev/null &&
           { printf "\r$cl$g$b    Alacritty Terminal Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -135,7 +135,6 @@ function terminal {
         "Terminator")
           printf "\n\n$y$b    Installing Terminator... $endc$enda"
           {
-            sudo add-apt-repository ppa:gnome-terminator
             sudo apt install terminator -y
           } &> /dev/null &&
           { printf "\r$cl$g$b    Terminator Installed $endc$enda\n"; sleep 2;} ||
@@ -228,6 +227,7 @@ function main {
   dmanager
   desktopenv
   browser
+  terminal
   clear
   showlogo
   printf "\n\n$g$b    Your Computer is now Configured$endc$enda"
