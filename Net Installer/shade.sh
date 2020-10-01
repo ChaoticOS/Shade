@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.1.3 Build 16 Canary [Net Installer]
+# Shade Aqua v0.1.4 Build 17 Canary [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -29,7 +29,7 @@ function showlogo {
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
                         Aqua Canary    $endc$enda
                                  
-                            Aqua Version 0.1.3 Build 15
+                            Aqua Version 0.1.4 Build 17
 
    $b$r Warning: This is Incomplete Build 
     $endc$enda\n""";
@@ -56,7 +56,6 @@ function choose {
       [[ "$num" != *[![:digit:]]* ]] &&
       (( num > 0 && num <= ${#options[@]} )) ||
       { msg="Invalid option: $num"; continue; }
-      ((num--)); msg="${options[num]} was ${choices[num]:+un}checked"
       [[ "${choices[num]}" ]] && choices[num]="" || choices[num]="X"
   done
 }
@@ -108,21 +107,12 @@ function browser {
 function terminal {
   # Installation of Browsers
   echo "\n                    Terminal Installer\n"
-  options=("Alacritty" "Gnome Terminal" "Terminator" "Xfce Terminal" "xTerm")
+  options=("Gnome Terminal" "Terminator" "Xfce Terminal" "xTerm")
   choose "${options[@]}"
 
   for i in ${!options[@]}; do
     [[ "${choices[i]}" ]] &&
       case ${options[i]} in
-        "Alacritty")
-          printf "\n$y$b    Installing Alacritty... $endc$enda"
-          {
-            sudo snap install alacritty --classic
-          } &> /dev/null &&
-          { printf "\r$cl$g$b    Alacritty Terminal Installed $endc$enda\n"; sleep 2;} ||
-          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
-          ;;
-  
         "Gnome Terminal")
           printf "\n\n$y$b    Installing Gnome... $endc$enda"
           {
