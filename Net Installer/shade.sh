@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.1.2 Build 14 Canary [Net Installer]
+# Shade Aqua v0.1.3 Build 15 Canary [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -29,7 +29,7 @@ function showlogo {
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
                         Aqua Canary    $endc$enda
                                  
-                            Aqua Version 0.1.2 Build 14
+                            Aqua Version 0.1.3 Build 15
 
    $b$r Warning: This is Incomplete Build 
     $endc$enda\n""";
@@ -91,13 +91,77 @@ function browser {
   
         "Firefox")
           printf "\n\n$y$b    Installing Firefox... $endc$enda"
-          sudo apt install firefox -y &> /dev/null &&
+          {
+            sudo apt install firefox -y
+          } &> /dev/null &&
           { printf "\r$cl$g$b    Firefox Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
         *)
-          echo "Unknown"
+          echo "Unknown Browser"
+          ;;
+      esac
+  done
+}
+
+function terminal {
+  # Installation of Browsers
+  echo "\n                    Terminal Installer\n"
+  options=("Alacritty" "Gnome Terminal" "Terminator" "Xfce Terminal" "xTerm")
+  choose "${options[@]}"
+
+  for i in ${!options[@]}; do
+    [[ "${choices[i]}" ]] &&
+      case ${options[i]} in
+        "Alacritty")
+          printf "\n$y$b    Installing Alacritty... $endc$enda"
+          {
+            sudo snap install alacritty --classic -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Alacritty Terminal Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+  
+        "Gnome Terminal")
+          printf "\n\n$y$b    Installing Gnome... $endc$enda"
+          {
+            sudo apt install gnome-terminal -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Gnome Terminal Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Terminator")
+          printf "\n\n$y$b    Installing Terminator... $endc$enda"
+          {
+            sudo add-apt-repository ppa:gnome-terminator
+            sudo apt install terminator -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Terminator Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Xfce Terminal")
+          printf "\n\n$y$b    Installing Terminator... $endc$enda"
+          {
+            sudo apt install xfce4-terminal
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Terminator Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "xTerm")
+          printf "\n\n$y$b    Installing xTerm... $endc$enda"
+          {
+            sudo apt install xterm -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    xTerm Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        *)
+          echo "Unknown Terminal"
           ;;
       esac
   done
@@ -131,7 +195,7 @@ function dmanager {
           ;;
 
         *)
-          echo "Unknown"
+          echo "Unknown Display Manager"
           ;;
       esac
   done
@@ -151,6 +215,12 @@ function desktopenv {
   { printf "\r$cl$g$b    Tasksel Initialized $endc$enda\n"; sleep 2;} ||
   { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
   sudo tasksel
+  printf "\n\n$y$b    Updating... $endc$enda"
+  {
+    sudo apt-get install tasksel -y
+  } &> /dev/null &&
+  { printf "\r$cl$g$b    Updated $endc$enda\n"; sleep 2;} ||
+  { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2; exit; }
 }
 
 function main {
