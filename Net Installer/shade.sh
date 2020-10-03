@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.3 Build 23 Beta [Net Installer]
+# Shade Aqua v0.3.1 Build 24 Beta [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -29,7 +29,7 @@ function showlogo {
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
                           Aqua Beta    $endc$enda
 
-                            Aqua Version 0.3 Build 23
+                            Aqua Version 0.3.1 Build 24
 
    $b$r Warning: Currently in Development
    $endc$enda\n""";
@@ -221,47 +221,44 @@ function texteditor {
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
         *)
-          echo "Unknown Browser"
+          echo "Unknown Texteditor"
           ;;
       esac
   done
 }
 
-function dmanager {
-  # Installation of Display Manager
-  echo "\n                    Display Manager Installer\n"
-  options=("gdm3" "lightdm")
+function devtools {
+  # Installation of DevTools
+  echo "\n                    DevTools Installer\n"
+  options=("Android Studio" "VS Code")
   choose "${options[@]}"
 
   for i in ${!options[@]}; do
     [[ "${choices[i]}" ]] &&
       case ${options[i]} in
-        "gdm3")
-          printf "\n$y$b    Installing Gnome Display Manager... $endc$enda"
+        "Android Studio")
+          printf "\n$y$b    Installing Android Studio... $endc$enda"
           {
-            sudo DEBIAN_FRONTEND=noninteractive apt-get install gdm3 -y
+            sudo snap install android-studio --classic
           } &> /dev/null &&
-          { printf "\r$cl$g$b    Display Manager Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$g$b    Android Studio Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
-        "lightdm")
-          printf "\n\n$y$b    Installing lightdm... $endc$enda"
+        "VS Code")
+          printf "\n\n$y$b    Installing VS Code... $endc$enda"
           {
-            sudo DEBIAN_FRONTEND=noninteractive apt install lightdm -y 
+            sudo snap install code --classic
           } &> /dev/null &&
-          { printf "\r$cl$g$b    lightdm Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$g$b    VS Code Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
         *)
-          echo "Unknown Display Manager"
+          echo "Unknown DevTool"
           ;;
       esac
   done
-  printf "\n$y$b    Please Configure Display Manager $endc$enda"
-  sleep 3
-  sudo dpkg-reconfigure gdm3
 }
 
 function accessories {
@@ -316,6 +313,43 @@ function accessories {
   done
 }
 
+function dmanager {
+  # Installation of Display Manager
+  echo "\n                    Display Manager Installer\n"
+  options=("gdm3" "lightdm")
+  choose "${options[@]}"
+
+  for i in ${!options[@]}; do
+    [[ "${choices[i]}" ]] &&
+      case ${options[i]} in
+        "gdm3")
+          printf "\n$y$b    Installing Gnome Display Manager... $endc$enda"
+          {
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install gdm3 -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Display Manager Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "lightdm")
+          printf "\n\n$y$b    Installing lightdm... $endc$enda"
+          {
+            sudo DEBIAN_FRONTEND=noninteractive apt install lightdm -y 
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    lightdm Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        *)
+          echo "Unknown Display Manager"
+          ;;
+      esac
+  done
+  printf "\n$y$b    Please Configure Display Manager $endc$enda"
+  sleep 3
+  sudo dpkg-reconfigure gdm3
+}
+
 function desktopenv {
   # Installation of Desktop Environment
   clear
@@ -343,6 +377,7 @@ function main {
   browser
   terminal
   texteditor
+  devtools
   accessories
   clear
   showlogo
