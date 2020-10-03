@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.3.1 Build 24 Beta [Net Installer]
+# Shade Aqua v0.4 Build 25 Stable [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -27,11 +27,10 @@ function showlogo {
      \___ \| '_ \ / _\` |/ _\` |/ _ \\ $endc$enda         Shade : An Operating System Customisation Project$c$b
      ____) | | | | (_| | (_| |  __/    $endc$enda                 Licensed under$r$b chaOS © 2020$enda$c$b
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
-                          Aqua Beta    $endc$enda
+                              Aqua     $endc$enda
 
-                            Aqua Version 0.3.1 Build 24
+                            Aqua Version 0.4 Build 25
 
-   $b$r Warning: Currently in Development
    $endc$enda\n""";
 }
 
@@ -55,7 +54,7 @@ function choose {
       clear
       [[ "$num" != *[![:digit:]]* ]] &&
       (( num > 0 && num <= ${#options[@]} )) ||
-      { msg="    Invalid option (( $num ))"; continue; }
+      { msg="    Invalid option $num"; continue; }
       (( num-- ));
       [[ "${choices[num]}" ]] && choices[num]="" || choices[num]="X"
   done
