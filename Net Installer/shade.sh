@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.2.2 Build 22 Beta [Net Installer]
+# Shade Aqua v0.3 Build 23 Beta [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -29,7 +29,7 @@ function showlogo {
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
                           Aqua Beta    $endc$enda
 
-                            Aqua Version 0.2.2 Build 22
+                            Aqua Version 0.3 Build 23
 
    $b$r Warning: Currently in Development
    $endc$enda\n""";
@@ -40,7 +40,7 @@ function choose {
   unset choices
   menu() {
       showlogo
-      echo "Avaliable options:\n"
+      echo "    Avaliable options :"
       for i in ${!options[@]}; do
           [[ "${choices[i]}" ]] &&
           printf $g || printf $r
@@ -50,15 +50,16 @@ function choose {
       if [[ "$msg" ]]; then echo "$msg"; fi
   }
 
-  prompt="Check an option (again to uncheck, ENTER when done): "
+  prompt="    Select options, Enter to continue: "
   while menu && read -rp "$prompt" num && [[ "$num" ]]; do
       clear
       [[ "$num" != *[![:digit:]]* ]] &&
       (( num > 0 && num <= ${#options[@]} )) ||
-      { msg="Invalid option: $num"; continue; }
+      { msg="    Invalid option (( $num ))"; continue; }
       (( num-- ));
       [[ "${choices[num]}" ]] && choices[num]="" || choices[num]="X"
   done
+  unset msg
 }
 
 function initial {
@@ -264,7 +265,7 @@ function dmanager {
 }
 
 function accessories {
-    # Installation of Text Editors
+  # Installation of Accessories
   echo "\n                    Accessory Installer\n"
   options=("VLC" "Remmina" "Kazam : Screenshot" "Telegram")
   choose "${options[@]}"
@@ -286,7 +287,7 @@ function accessories {
           {
             sudo snap install remmina
           } &> /dev/null &&
-          { printf "\r$cl$g$b    VLC Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$g$b    Remmina Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
@@ -304,7 +305,7 @@ function accessories {
           {
             sudo snap install telegram-desktop
           } &> /dev/null &&
-          { printf "\r$cl$g$b    Kazam Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$g$b    Telegram Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
@@ -350,10 +351,10 @@ function main {
     sudo apt-get install gnome-software -y
     sudo apt-get install open-vm-tools -y
   } &> /dev/null &&
-  { printf "\r$cl$g$b    Your Computer is now Configure $endc$enda\n"; sleep 2;} ||
+  { printf "\r$cl$g$b    Your Computer is now Configured$endc$enda\n"; sleep 2;} ||
   { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
-  printf "\n\n$c$b    Thanks for using Shade Aqua [Net Installer] from chaOS$endc$enda"
-  printf "\n\n$y$b    Rebooting\n$endcenda"
+  printf "\n$c$b    Thanks for using Shade Aqua [Net Installer] from chaOS\n$endc$enda"
+  printf "\n$y$b    Rebooting\n$endcenda"
   sleep 5
   sudo reboot
 }
