@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.2.1 Build 21 Beta [Net Installer]
+# Shade Aqua v0.2.2 Build 22 Beta [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -29,7 +29,7 @@ function showlogo {
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
                           Aqua Beta    $endc$enda
 
-                            Aqua Version 0.2 Build 21
+                            Aqua Version 0.2.2 Build 22
 
    $b$r Warning: Currently in Development
    $endc$enda\n""";
@@ -72,7 +72,7 @@ function initial {
 function browser {
   # Installation of Browsers
   echo "\n                    Browser Installer\n"
-  options=("Chrome" "Firefox")
+  options=("Chrome" "Firefox" "Epiphany")
   choose "${options[@]}"
 
   for i in ${!options[@]}; do
@@ -95,6 +95,15 @@ function browser {
             sudo apt install firefox -y
           } &> /dev/null &&
           { printf "\r$cl$g$b    Firefox Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Epiphany")
+          printf "\n\n$y$b    Installing Epiphany Browser... $endc$enda"
+          {
+            sudo apt install epiphany-browser -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Epiphany Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
@@ -133,11 +142,11 @@ function terminal {
           ;;
 
         "Xfce Terminal")
-          printf "\n\n$y$b    Installing Terminator... $endc$enda"
+          printf "\n\n$y$b    Installing XFCE Terminal... $endc$enda"
           {
-            sudo apt install xfce4-terminal
+            sudo apt install xfce4-terminal -y
           } &> /dev/null &&
-          { printf "\r$cl$g$b    Terminator Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$g$b    XFCE Terminal Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
@@ -196,7 +205,7 @@ function texteditor {
         "Notepadqq")
           printf "\n\n$y$b    Installing Notepadqq... $endc$enda"
           {
-            sudo apt-get install notepadqq -y
+            sudo apt install notepadqq -y
           } &> /dev/null &&
           { printf "\r$cl$g$b    Notepadqq Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -252,7 +261,58 @@ function dmanager {
   printf "\n$y$b    Please Configure Display Manager $endc$enda"
   sleep 3
   sudo dpkg-reconfigure gdm3
+}
 
+function accessories {
+    # Installation of Text Editors
+  echo "\n                    Accessory Installer\n"
+  options=("VLC" "Remmina" "Kazam : Screenshot" "Telegram")
+  choose "${options[@]}"
+
+  for i in ${!options[@]}; do
+    [[ "${choices[i]}" ]] &&
+      case ${options[i]} in
+        "VLC")
+          printf "\n$y$b    Installing VLC... $endc$enda"
+          {
+            sudo apt install vlc -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    VLC Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Remmina")
+          printf "\n$y$b    Installing Remmina... $endc$enda"
+          {
+            sudo snap install remmina
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    VLC Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Kazam : Screenshot")
+          printf "\n$y$b    Installing Kazam... $endc$enda"
+          {
+            sudo apt install kazam -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Kazam Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Telegram")
+          printf "\n$y$b    Installing Telegram... $endc$enda"
+          {
+            sudo snap install telegram-desktop
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Kazam Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        *)
+          echo "Unknown Accessory"
+          ;;
+      esac
+  done
 }
 
 function desktopenv {
@@ -282,6 +342,7 @@ function main {
   browser
   terminal
   texteditor
+  accessories
   clear
   showlogo
   printf "\n\n$y$b    Now Configuring your computer $endc$enda"

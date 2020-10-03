@@ -1,7 +1,10 @@
-desktop-environment
-browser
-terminal
-texteditor
+display manager #Done
+desktop-environment #Done
+browser #Done
+terminal #Done
+texteditor #Done
 accessories
 devtools
-display manager
+
+
+Spotify, chrome, gparted, vs code, notepadqq, chrome rdp, remmina, vlc player, kazam, telegram, whatsapp, xdm
