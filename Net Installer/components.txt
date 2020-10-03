@@ -4,4 +4,4 @@ browser #Done
 terminal #Done
 texteditor #Done
 accessories #Done
-devtools
+devtools #Done

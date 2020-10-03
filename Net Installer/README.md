@@ -4,8 +4,8 @@
 
 ## Net Installer
  -  It's been a long time since **Aqua Development Started**
- -  Almost after 20 builds, We are able to give you an Open Beta
- -  It is currently in development. So, If you found any Bug then create an **[Issue](https://github.com/ChaoticOS/Shade/issues)** and tell us
+ -  Almost after 25 builds, We are able to give you a Stable version
+ -  If you found any Bug then create an **[Issue](https://github.com/ChaoticOS/Shade/issues)** and tell us
 
 ### Installation Procedure:
  -  Download **Ubuntu Minimal<sup>1</sup>** iso or **Ubuntu Server<sup>2</sup>** iso (Downloads Provided Below)
@@ -23,15 +23,15 @@
         sudo ./shade.sh
  -  Follow the Procedure at last you will found your os customised as per your choice
 
-<sub><sup>1</sup> Ubuntu 20.04 Minimal Doesn't Support UEFI</sub>
+<sub><sup>1</sup> Ubuntu 20.04 Minimal Doesn't Support [UEFI](https://help.ubuntu.com/community/Installation/MinimalCD#mini_system_in_UEFI_mode)</sub>
 
 <sub><sup>2</sup> Ubuntu 20.04 Server have some issues with Tasksel and apt repository</sub>
 
 ### Compatibility
- -  Ubuntu 20.04 will work completely fine
- -  Tested on Ubuntu 20.04 Minimal Installer
- -  Ubuntu 20.04 Server will work fine but have some issues Tasksel
- -  Testing needed to test on different ubuntu versions
+ -  Ubuntu 20.04 will work completely fine and Tested Completely
+ -  Ubuntu Desktop Iso also work fine
+ -  Ubuntu 20.04 Server will work fine but have some issues Tasksel and apt
+ -  Testing needed to test on different distributions
 
 ### Downloads
 
