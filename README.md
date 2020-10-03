@@ -1,6 +1,6 @@
 # chaOS Presents
 ### Shade: An Operating System Customisation Project
-[Licensed under **chaOS © 2020**](https://github.com/ChaoticOS/Shade/LICENSE)
+[Licensed under **chaOS © 2020**](https://github.com/ChaoticOS/Shade/blob/main/LICENSE)
 
 ## Net Installer
  -  It's been a long time since **Aqua Development Started**

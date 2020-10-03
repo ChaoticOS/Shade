@@ -3,8 +3,5 @@ desktop-environment #Done
 browser #Done
 terminal #Done
 texteditor #Done
-accessories
+accessories #Done
 devtools
-
-
-Spotify, chrome, gparted, vs code, notepadqq, chrome rdp, remmina, vlc player, kazam, telegram, whatsapp, xdm
