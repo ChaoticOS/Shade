@@ -1,5 +1,5 @@
 #! /bin/bash
-# Shade Aqua v0.2 Build 20 Beta [Net Installer]
+# Shade Aqua v0.4 Build 25 Stable [Net Installer]
 
 # Colors
 b='\033[1m'
@@ -27,12 +27,11 @@ function showlogo {
      \___ \| '_ \ / _\` |/ _\` |/ _ \\ $endc$enda         Shade : An Operating System Customisation Project$c$b
      ____) | | | | (_| | (_| |  __/    $endc$enda                 Licensed under$r$b chaOS © 2020$enda$c$b
     |_____/|_| |_|\__,_|\__,_|\___     $endc$enda         Github : https://github.com/ChaoticOS/Shade$c$b
-                          Aqua Beta    $endc$enda
-                                 
-                            Aqua Version 0.2 Build 20
+                              Aqua     $endc$enda
 
-   $b$r Warning: Currently in Development 
-    $endc$enda\n""";
+                            Aqua Version 0.4 Build 25
+
+   $endc$enda\n""";
 }
 
 function choose {
@@ -40,7 +39,7 @@ function choose {
   unset choices
   menu() {
       showlogo
-      echo "Avaliable options:\n"
+      echo "    Avaliable options :"
       for i in ${!options[@]}; do
           [[ "${choices[i]}" ]] &&
           printf $g || printf $r
@@ -50,14 +49,16 @@ function choose {
       if [[ "$msg" ]]; then echo "$msg"; fi
   }
 
-  prompt="Check an option (again to uncheck, ENTER when done): "
+  prompt="    Select options, Enter to continue: "
   while menu && read -rp "$prompt" num && [[ "$num" ]]; do
       clear
       [[ "$num" != *[![:digit:]]* ]] &&
       (( num > 0 && num <= ${#options[@]} )) ||
-      { msg="Invalid option: $num"; continue; }
+      { msg="    Invalid option $num"; continue; }
+      (( num-- ));
       [[ "${choices[num]}" ]] && choices[num]="" || choices[num]="X"
   done
+  unset msg
 }
 
 function initial {
@@ -71,7 +72,7 @@ function initial {
 function browser {
   # Installation of Browsers
   echo "\n                    Browser Installer\n"
-  options=("Chrome" "Firefox")
+  options=("Chrome" "Firefox" "Epiphany")
   choose "${options[@]}"
 
   for i in ${!options[@]}; do
@@ -87,13 +88,22 @@ function browser {
           { printf "\r$cl$g$b    Google Chrome Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
-  
+
         "Firefox")
           printf "\n\n$y$b    Installing Firefox... $endc$enda"
           {
             sudo apt install firefox -y
           } &> /dev/null &&
           { printf "\r$cl$g$b    Firefox Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Epiphany")
+          printf "\n\n$y$b    Installing Epiphany Browser... $endc$enda"
+          {
+            sudo apt install epiphany-browser -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Epiphany Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
@@ -132,11 +142,11 @@ function terminal {
           ;;
 
         "Xfce Terminal")
-          printf "\n\n$y$b    Installing Terminator... $endc$enda"
+          printf "\n\n$y$b    Installing XFCE Terminal... $endc$enda"
           {
-            sudo apt install xfce4-terminal
+            sudo apt install xfce4-terminal -y
           } &> /dev/null &&
-          { printf "\r$cl$g$b    Terminator Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$g$b    XFCE Terminal Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
 
@@ -173,11 +183,11 @@ function texteditor {
           { printf "\r$cl$g$b    Atom Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
-  
+
         "Brackets")
           printf "\n\n$y$b    Installing Brackets... $endc$enda"
           {
-            sudo snap install brackets
+            sudo snap install brackets --classic
           } &> /dev/null &&
           { printf "\r$cl$g$b    Brackets Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -186,7 +196,7 @@ function texteditor {
         "Leafpad")
           printf "\n\n$y$b    Installing Leafpad... $endc$enda"
           {
-             sudo apt-get install leafpad -y
+             sudo snap install leafpad --classic
           } &> /dev/null &&
           { printf "\r$cl$g$b    Leafpad Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -195,7 +205,7 @@ function texteditor {
         "Notepadqq")
           printf "\n\n$y$b    Installing Notepadqq... $endc$enda"
           {
-            sudo apt-get install notepadqq
+            sudo apt install notepadqq -y
           } &> /dev/null &&
           { printf "\r$cl$g$b    Notepadqq Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
@@ -204,13 +214,99 @@ function texteditor {
         "Sublime Text")
           printf "\n\n$y$b    Installing Sublime Text... $endc$enda"
           {
-            sudo snap install sublime-text --classic# Installation Command
+            sudo snap install sublime-text --classic
           } &> /dev/null &&
           { printf "\r$cl$g$b    Sublime Text Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
         *)
-          echo "Unknown Browser"
+          echo "Unknown Texteditor"
+          ;;
+      esac
+  done
+}
+
+function devtools {
+  # Installation of DevTools
+  echo "\n                    DevTools Installer\n"
+  options=("Android Studio" "VS Code")
+  choose "${options[@]}"
+
+  for i in ${!options[@]}; do
+    [[ "${choices[i]}" ]] &&
+      case ${options[i]} in
+        "Android Studio")
+          printf "\n$y$b    Installing Android Studio... $endc$enda"
+          {
+            sudo snap install android-studio --classic
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Android Studio Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "VS Code")
+          printf "\n\n$y$b    Installing VS Code... $endc$enda"
+          {
+            sudo snap install code --classic
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    VS Code Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        *)
+          echo "Unknown DevTool"
+          ;;
+      esac
+  done
+}
+
+function accessories {
+  # Installation of Accessories
+  echo "\n                    Accessory Installer\n"
+  options=("VLC" "Remmina" "Kazam : Screenshot" "Telegram")
+  choose "${options[@]}"
+
+  for i in ${!options[@]}; do
+    [[ "${choices[i]}" ]] &&
+      case ${options[i]} in
+        "VLC")
+          printf "\n$y$b    Installing VLC... $endc$enda"
+          {
+            sudo apt install vlc -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    VLC Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Remmina")
+          printf "\n$y$b    Installing Remmina... $endc$enda"
+          {
+            sudo snap install remmina
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Remmina Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Kazam : Screenshot")
+          printf "\n$y$b    Installing Kazam... $endc$enda"
+          {
+            sudo apt install kazam -y
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Kazam Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        "Telegram")
+          printf "\n$y$b    Installing Telegram... $endc$enda"
+          {
+            sudo snap install telegram-desktop
+          } &> /dev/null &&
+          { printf "\r$cl$g$b    Telegram Installed $endc$enda\n"; sleep 2;} ||
+          { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
+          ;;
+
+        *)
+          echo "Unknown Accessory"
           ;;
       esac
   done
@@ -233,7 +329,7 @@ function dmanager {
           { printf "\r$cl$g$b    Display Manager Installed $endc$enda\n"; sleep 2;} ||
           { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
           ;;
-  
+
         "lightdm")
           printf "\n\n$y$b    Installing lightdm... $endc$enda"
           {
@@ -251,7 +347,6 @@ function dmanager {
   printf "\n$y$b    Please Configure Display Manager $endc$enda"
   sleep 3
   sudo dpkg-reconfigure gdm3
-
 }
 
 function desktopenv {
@@ -281,6 +376,8 @@ function main {
   browser
   terminal
   texteditor
+  devtools
+  accessories
   clear
   showlogo
   printf "\n\n$y$b    Now Configuring your computer $endc$enda"
@@ -288,11 +385,12 @@ function main {
     sudo apt-get install gnome-software -y
     sudo apt-get install open-vm-tools -y
   } &> /dev/null &&
-  { printf "\r$cl$g$b    Your Computer is now Configure $endc$enda\n"; sleep 2;} ||
+  { printf "\r$cl$g$b    Your Computer is now Configured$endc$enda\n"; sleep 2;} ||
   { printf "\r$cl$r$b    Error Occured, Abort $endc$enda\n"; sleep 2;}
-  printf "\n\n$c$b    Thanks for using Shade Aqua [Net Installer] from chaOS$endc$enda"
-  printf "\n\n$y$b    Rebooting$endcenda"
+  printf "\n$c$b    Thanks for using Shade Aqua [Net Installer] from chaOS\n$endc$enda"
+  printf "\n$y$b    Rebooting\n$endcenda"
   sleep 5
+  sudo reboot
 }
 
 main

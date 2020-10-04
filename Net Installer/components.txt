@@ -1,7 +1,7 @@
-desktop-environment
-browser
-terminal
-texteditor
-accessories
-devtools
-display manager
+display manager #Done
+desktop-environment #Done
+browser #Done
+terminal #Done
+texteditor #Done
+accessories #Done
+devtools #Done
